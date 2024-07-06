@@ -50,12 +50,25 @@ input {
   color: white;
   transition: 0.5;
 }
-P {
-  font-weight: 600;
-  font-size: 20px;
+.login-btn:hover {
+  transform: scale(1.15);
+  transition: 0.1s;
 }
 
-.login-btn:hover {
+.switch-btn {
+  width: 35%;
+  height: 2em;
+  background-color: rgb(147, 147, 147);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: 0.5s;
+  border-radius: 0.25em;
+  cursor: pointer;
+  color: white;
+  transition: 0.5;
+}
+.switch-btn:hover {
   transform: scale(1.15);
   transition: 0.1s;
 }

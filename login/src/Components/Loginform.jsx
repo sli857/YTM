@@ -6,21 +6,38 @@ const Loginform = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [remember, setRemember] = useState(false);
+  const [isSignup, setIsSignup] = useState(false);
+  const [email, setEmail] = useState("");
 
-  const onLogin = () => {
+  const handleSwitchForm = () => {
+    setIsSignup(!isSignup);
+  };
+
+  const handleLogin = () => {
     const encrypted = encrypt(password);
     var form = {
       user: username,
       secret: encrypted,
       remember: remember,
     };
-    console.log(form);
-    //TODO: post
+    console.log("Login form:", form);
+    //TODO: post login
+  };
+
+  const handleSignup = () => {
+    const encrypted = encrypt(password);
+    var form = {
+      user: username,
+      email: email,
+      secret: encrypted,
+    };
+    console.log("Signup form:", form);
+    //TODO: post signup
   };
 
   return (
     <div className="cover">
-      <h1>Login</h1>
+      <h1>{isSignup ? "Sign Up" : "Login"}</h1>
       <input
         type="text"
         placeholder="username"
@@ -28,6 +45,17 @@ const Loginform = () => {
         onChange={(e) => setUsername(e.target.value)}
       />{" "}
       <br />
+      {isSignup && (
+        <>
+          <input
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />{" "}
+          <br />
+        </>
+      )}
       <input
         type="password"
         placeholder="Password"
@@ -35,19 +63,27 @@ const Loginform = () => {
         onChange={(e) => setPassword(e.target.value)}
       />{" "}
       <br />
-      <div className="remember">
-        <label>
-          <input
-            type="checkbox"
-            checked={remember}
-            onChange={(e) => setRemember(e.target.checked)}
-            className="custom-checkbox"
-          />
-          Remember this device
-        </label>
+      {!isSignup && (
+        <div className="remember">
+          <label>
+            <input
+              type="checkbox"
+              checked={remember}
+              onChange={(e) => setRemember(e.target.checked)}
+              className="custom-checkbox"
+            />
+            Remember this device
+          </label>
+        </div>
+      )}
+      <div
+        className="login-btn"
+        onClick={isSignup ? handleSignup : handleLogin}
+      >
+        {isSignup ? "Signup" : "Login"}
       </div>
-      <div className="login-btn" onClick={onLogin}>
-        Login
+      <div className="switch-btn" onClick={handleSwitchForm}>
+        {isSignup ? "Switch to Login" : "Switch to Signup"}
       </div>
     </div>
   );

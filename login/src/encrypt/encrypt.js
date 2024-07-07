@@ -1,5 +1,5 @@
 import CryptoJS from "crypto-js";
-import { SECRETKEY } from "../config/secret";
+import { SECRETKEY } from "../../config/secret";
 export function encrypt(str) {
   return CryptoJS.AES.encrypt(JSON.stringify(str), SECRETKEY).toString();
 }

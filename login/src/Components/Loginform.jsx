@@ -1,7 +1,8 @@
 import React, { useState } from "react";
+import axios from "axios";
 import "./Loginform.css";
 import { encrypt } from "../encrypt/encrypt";
-
+import { SERVERURL } from "../../config/secret";
 const Loginform = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -13,7 +14,7 @@ const Loginform = () => {
     setIsSignup(!isSignup);
   };
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     const encrypted = encrypt(password);
     var form = {
       user: username,
@@ -22,9 +23,11 @@ const Loginform = () => {
     };
     console.log("Login form:", form);
     //TODO: post login
+    const res = await axios.post(`${SERVERURL}/login`, JSON.stringify(form));
+    console.log(res);
   };
 
-  const handleSignup = () => {
+  const handleSignup = async () => {
     const encrypted = encrypt(password);
     var form = {
       user: username,
@@ -33,6 +36,8 @@ const Loginform = () => {
     };
     console.log("Signup form:", form);
     //TODO: post signup
+    const res = await axios.post(`${SERVERURL}/signup`, JSON.stringify(form));
+    console.log(res);
   };
 
   return (

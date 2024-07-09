@@ -17,26 +17,26 @@ const Loginform = () => {
   const handleLogin = async () => {
     const encrypted = encrypt(password);
     var form = {
-      user: username,
+      name: username,
       secret: encrypted,
       remember: remember,
     };
     console.log("Login form:", form);
     //TODO: post login
-    const res = await axios.post(`${SERVERURL}/login`, JSON.stringify(form));
+    const res = await axios.post(`${SERVERURL}/login`, form);
     console.log(res);
   };
 
   const handleSignup = async () => {
     const encrypted = encrypt(password);
     var form = {
-      user: username,
+      name: username,
       email: email,
       secret: encrypted,
     };
     console.log("Signup form:", form);
     //TODO: post signup
-    const res = await axios.post(`${SERVERURL}/signup`, JSON.stringify(form));
+    const res = await axios.post(`${SERVERURL}/signup`, form);
     console.log(res);
   };
 

@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
 import "./Loginform.css";
-import { encrypt } from "../encrypt/encrypt";
-import { SERVERURL } from "../../config/secret";
+import { encrypt } from "../../encrypt/encrypt";
+import { SERVERURL } from "../../../config/secret";
 const Loginform = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");

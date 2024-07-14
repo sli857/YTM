@@ -1,37 +1,67 @@
 import React, { useState } from "react";
 import axios from "axios";
+import PropTypes from "prop-types";
+
 import "./Loginform.css";
 import { encrypt } from "../../encrypt/encrypt";
 import { SERVERURL } from "../../../config/secret";
-const Loginform = () => {
+import { useNavigate } from "react-router-dom";
+
+function Loginform({ setAuth }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [remember, setRemember] = useState(false);
   const [isSignup, setIsSignup] = useState(false);
-  const [email, setEmail] = useState("");
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   const handleSwitchForm = () => {
     setIsSignup(!isSignup);
   };
 
-  const handleLogin = async () => {
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    if (!username || !password) {
+      setError("Both username and password are required.");
+      return;
+    }
     const encrypted = encrypt(password);
     var form = {
       name: username,
       secret: encrypted,
       remember: remember,
     };
-    console.log("Login form:", form);
-    //TODO: post login
-    const res = await axios.post(`${SERVERURL}/login`, form);
-    console.log(res);
+
+    axios
+      .post(`${SERVERURL}/login`, form)
+      .then((res) => {
+        if (res.status === 200) {
+          setAuth(true);
+          navigate("/");
+        }
+      })
+      .catch((err) => {
+        if (err.response.status === 401) {
+          setAuth(false);
+          navigate("/login");
+          setError("Invalid login. Please try again");
+        }
+      });
   };
 
-  const handleSignup = async () => {
+  const handleSignup = async (e) => {
+    e.preventDefault();
+    if (!username || !password || !confirmPassword) {
+      setError("Both username and password are required.");
+      return;
+    }
+    if (password !== confirmPassword) {
+      setError("Password does not match.");
+    }
     const encrypted = encrypt(password);
     var form = {
       name: username,
-      email: email,
       secret: encrypted,
     };
     console.log("Signup form:", form);
@@ -50,23 +80,23 @@ const Loginform = () => {
         onChange={(e) => setUsername(e.target.value)}
       />{" "}
       <br />
-      {isSignup && (
-        <>
-          <input
-            type="email"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />{" "}
-          <br />
-        </>
-      )}
       <input
         type="password"
         placeholder="Password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
       />{" "}
+      {isSignup && (
+        <>
+          <input
+            type="password"
+            placeholder="Confirm Password"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+          />{" "}
+          <br />
+        </>
+      )}
       <br />
       {!isSignup && (
         <div className="remember">
@@ -81,6 +111,7 @@ const Loginform = () => {
           </label>
         </div>
       )}
+      {error && <label className="error-label">{error}</label>}
       <div
         className="login-btn"
         onClick={isSignup ? handleSignup : handleLogin}
@@ -92,6 +123,10 @@ const Loginform = () => {
       </div>
     </div>
   );
+}
+
+Loginform.propTypes = {
+  setAuth: PropTypes.func.isRequired,
 };
 
 export default Loginform;

@@ -1,11 +1,30 @@
-import React from "react";
-import Loginform from "./Components/Loginform";
-
+import React, { useState } from "react";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import Loginform from "./components/authorization/Loginform.jsx";
 const App = () => {
+  const [isAuthorized, setIsAuthorized] = useState(false);
+
   return (
-    <div className="page">
-      <Loginform />
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route
+          path="/login"
+          element={<Loginform setAuth={setIsAuthorized} />}
+        />
+        <Route
+          path="/*"
+          element={
+            isAuthorized ? (
+              <div>
+                <h1>success</h1>
+              </div>
+            ) : (
+              <Navigate to="/login" />
+            )
+          }
+        />
+      </Routes>
+    </BrowserRouter>
   );
 };
 

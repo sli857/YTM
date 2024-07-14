@@ -82,3 +82,11 @@ input {
   height: 20px; /* Adjust the height */
   margin-right: 10px; /* Space between checkbox and text */
 }
+.error-label {
+  color: rgb(0, 0, 0);
+  margin-top: 10px;
+  border: 1px solid red;
+  padding: 5px;
+  border-radius: 4px;
+  background-color: #ffe6e6; /* Optional: light red background for better visibility */
+}

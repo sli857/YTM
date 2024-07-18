@@ -1,11 +1,24 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import "./Home.css";
 const Home = () => {
-  const Navigate = useNavigate();
+  const audioUrl = "http://localhost:3000/stream?trackid=3977a7f7bcad66f9";
+
   return (
-    <div>
-      <h1>Success</h1>
-      <button onClick={() => Navigate("/about")}>Go to About</button>
+    <div className="page">
+      <div className="navigation-bar">
+        <div className="navi-button-container">
+          <button className="nav-button">Explore</button>
+          <button className="nav-button">Library</button>
+        </div>
+        <img
+          src="./src/assets/slaythespire.jpg"
+          className="user-icon"
+          onClick={() => {}}
+        ></img>{" "}
+      </div>
+      <div className="music-player-bar">
+        <audio id="streamAudio" src={audioUrl} controls />
+      </div>
     </div>
   );
 };

@@ -66,60 +66,73 @@ function Loginform({ setAuth }) {
     };
     console.log("Signup form:", form);
     //TODO: post signup
-    const res = await axios.post(`${SERVERURL}/signup`, form);
-    console.log(res);
+    axios
+      .post(`${SERVERURL}/signup`, form)
+      .then((res) => {
+        if (res.status === 200) {
+          setAuth(true);
+          navigate("/");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        setAuth(false);
+        navigate("/login");
+      });
   };
 
   return (
-    <div className="cover">
-      <h1>{isSignup ? "Sign Up" : "Login"}</h1>
-      <input
-        type="text"
-        placeholder="username"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-      />{" "}
-      <br />
-      <input
-        type="password"
-        placeholder="Password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />{" "}
-      {isSignup && (
-        <>
-          <input
-            type="password"
-            placeholder="Confirm Password"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-          />{" "}
-          <br />
-        </>
-      )}
-      <br />
-      {!isSignup && (
-        <div className="remember">
-          <label>
+    <div className="page">
+      <div className="cover">
+        <h1>{isSignup ? "Sign Up" : "Login"}</h1>
+        <input
+          type="text"
+          placeholder="username"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+        />{" "}
+        <br />
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />{" "}
+        {isSignup && (
+          <>
             <input
-              type="checkbox"
-              checked={remember}
-              onChange={(e) => setRemember(e.target.checked)}
-              className="custom-checkbox"
-            />
-            Remember this device
-          </label>
+              type="password"
+              placeholder="Confirm Password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+            />{" "}
+            <br />
+          </>
+        )}
+        <br />
+        {!isSignup && (
+          <div className="remember">
+            <label>
+              <input
+                type="checkbox"
+                checked={remember}
+                onChange={(e) => setRemember(e.target.checked)}
+                className="custom-checkbox"
+              />
+              Remember this device
+            </label>
+          </div>
+        )}
+        {error && <label className="error-label">{error}</label>}
+        <div
+          className="login-btn"
+          onClick={isSignup ? handleSignup : handleLogin}
+        >
+          {isSignup ? "Signup" : "Login"}
         </div>
-      )}
-      {error && <label className="error-label">{error}</label>}
-      <div
-        className="login-btn"
-        onClick={isSignup ? handleSignup : handleLogin}
-      >
-        {isSignup ? "Signup" : "Login"}
-      </div>
-      <div className="switch-btn" onClick={handleSwitchForm}>
-        {isSignup ? "Switch to Login" : "Switch to Signup"}
+        <div className="switch-btn" onClick={handleSwitchForm}>
+          {isSignup ? "Switch to Login" : "Switch to Signup"}
+        </div>
       </div>
     </div>
   );

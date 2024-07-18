@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Loginform from "./components/authorization/Loginform.jsx";
+import YtmApp from "./components/structural/YtmApp.jsx";
+
 const App = () => {
   const [isAuthorized, setIsAuthorized] = useState(false);
 
@@ -13,15 +15,7 @@ const App = () => {
         />
         <Route
           path="/*"
-          element={
-            isAuthorized ? (
-              <div>
-                <h1>success</h1>
-              </div>
-            ) : (
-              <Navigate to="/login" />
-            )
-          }
+          element={isAuthorized ? <YtmApp /> : <Navigate to="/login" />}
         />
       </Routes>
     </BrowserRouter>

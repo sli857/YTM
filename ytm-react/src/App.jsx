@@ -1,10 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Loginform from "./components/authorization/Loginform.jsx";
 import YtmApp from "./components/structural/YtmApp.jsx";
 
 const App = () => {
-  const [isAuthorized, setIsAuthorized] = useState(false);
+  const [isAuthorized, setIsAuthorized] = useState(
+    localStorage.getItem("isAuthorized") === "true"
+  );
+  useEffect(() => {
+    localStorage.setItem("isAuthorized", isAuthorized);
+  }, [isAuthorized]);
 
   return (
     <BrowserRouter>

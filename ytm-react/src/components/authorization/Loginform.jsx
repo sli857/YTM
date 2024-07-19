@@ -38,7 +38,7 @@ function Loginform({ setAuth }) {
       .then((res) => {
         if (res.status === 200) {
           setAuth(true);
-          navigate("/");
+          navigate("/explore");
         }
       })
       .catch((err) => {
@@ -71,13 +71,16 @@ function Loginform({ setAuth }) {
       .then((res) => {
         if (res.status === 200) {
           setAuth(true);
-          navigate("/");
+          navigate("/explore");
         }
       })
       .catch((err) => {
+        if (err.response.status === 401) {
+          setAuth(false);
+          navigate("/login");
+          setError("Username exists. Please try again");
+        }
         console.log(err);
-        setAuth(false);
-        navigate("/login");
       });
   };
 

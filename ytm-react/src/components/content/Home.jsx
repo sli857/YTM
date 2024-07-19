@@ -1,7 +1,35 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import "./Home.css";
+import Player from "../elements/Player";
+
 const Home = () => {
-  const audioUrl = "http://localhost:3000/stream?trackid=3977a7f7bcad66f9";
+  const [playlists, setPlaylists] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchPlaylists = async () => {
+      try {
+        const response = await axios.get("http://localhost:3000/playlists/all");
+        setPlaylists(response.data);
+      } catch (error) {
+        setError(error.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchPlaylists();
+  }, []);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
 
   return (
     <div className="page">
@@ -14,10 +42,20 @@ const Home = () => {
           src="./src/assets/slaythespire.jpg"
           className="user-icon"
           onClick={() => {}}
-        ></img>{" "}
+        />
+      </div>
+      <div className="main-page">
+        <h1>Playlists</h1>
+        <ul>
+          {playlists.map((playlist) => (
+            <li key={playlist.id}>
+              {playlist.name} - {playlist.description}
+            </li>
+          ))}
+        </ul>
       </div>
       <div className="music-player-bar">
-        <audio id="streamAudio" src={audioUrl} controls />
+        <Player />
       </div>
     </div>
   );

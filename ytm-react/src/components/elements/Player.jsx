@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import axios from "axios";
+import "../content/Content.css";
 
 function Player() {
   const [trackId, setTrackId] = useState("2277cc1fd395db6b"); // You can set your initial track id here
@@ -52,26 +53,26 @@ function Player() {
 
   const nextTrack = () => {
     // Implement the logic to get the next track id
-    // For example:
-    // setTrackId(nextTrackId);
   };
 
   const previousTrack = () => {
     // Implement the logic to get the previous track id
-    // For example:
-    // setTrackId(previousTrackId);
   };
 
   return (
-    <div>
-      <img src="album-image.jpg" alt="Album Image" />
+    <div className="player-container">
+      <img
+        src="./src/assets/slaythespire.jpg"
+        alt="Album Image"
+        className="album-image"
+      />
       <audio
         ref={audioRef}
         src={audioSrc}
         onTimeUpdate={handleTimeUpdate}
         onEnded={() => setIsPlaying(false)}
       />
-      <div>
+      <div className="controls">
         <button onClick={previousTrack}>Previous</button>
         <button onClick={togglePlayPause}>
           {isPlaying ? "Pause" : "Play"}
@@ -84,6 +85,7 @@ function Player() {
         onChange={handleProgressChange}
         min="0"
         max="100"
+        className="progress-bar"
       />
     </div>
   );

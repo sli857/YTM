@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import "./Home.css";
+import "./Content.css";
 import Player from "../elements/Player";
 
 const Home = () => {
@@ -11,8 +11,11 @@ const Home = () => {
   useEffect(() => {
     const fetchPlaylists = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/playlists/all");
-        setPlaylists(response.data);
+        //const response = await axios.get("http://localhost:3000/playlists/all");
+        //setPlaylists(response.data);
+        setPlaylists([
+          { name: "song1", description: "song1 description", id: 1 },
+        ]);
       } catch (error) {
         setError(error.message);
       } finally {

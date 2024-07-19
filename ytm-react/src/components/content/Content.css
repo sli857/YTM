@@ -1,0 +1,84 @@
+.navigation-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 50px;
+  background-color: #ffffff;
+  display: flex;
+  justify-content: space-between; /* Adjusted to space-between */
+  align-items: center;
+  padding: 0 10px; /* Add padding to ensure content is not flush against screen edges */
+}
+
+/* Add this for the buttons container */
+.nav-buttons-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.nav-button {
+  padding: 10px 20px;
+  margin: 0 5px;
+  border: none;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: #ffffff;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.nav-button:hover {
+  background-color: #0056b3;
+}
+
+.user-icon {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  margin-left: auto;
+  margin-right: 10px;
+}
+.music-player-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 50px;
+  background-color: #ffffff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 10px;
+}
+
+/* Add this for the music player bar */
+/* Add this CSS to your Player component's CSS file */
+.player-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.album-image {
+  width: 50px; /* Adjust as needed */
+  height: 50px; /* Adjust as needed */
+  margin-right: 10px;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+}
+
+.controls button {
+  margin: 0 5px; /* Adjust spacing between buttons as needed */
+}
+
+.progress-bar {
+  width: 100%;
+  max-width: 300px; /* Adjust as needed */
+  margin-left: 10px;
+}

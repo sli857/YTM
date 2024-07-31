@@ -3,23 +3,22 @@ import axios from "axios";
 import "../content/Content.css";
 
 function Player() {
-  const [trackId, setTrackId] = useState("2277cc1fd395db6b"); // Initial track ID
+  const [trackId, setTrackId] = useState("2277cc1fd395db6b");
   const [audioSrc, setAudioSrc] = useState(null);
+  const [imageSrc, setImageSrc] = useState(null); // State for image source
   const [isPlaying, setIsPlaying] = useState(false);
   const [progress, setProgress] = useState(0);
   const [duration, setDuration] = useState(0);
-  const [volume, setVolume] = useState(1); // Default volume is 100%
+  const [volume, setVolume] = useState(0.5);
+  const [pid, setPid] = useState("97d29279748fec3d"); // Initial pid for the image
   const audioRef = useRef(null);
 
   useEffect(() => {
-    // Fetch the MP3 file when the trackId changes
     const fetchTrack = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3000/testStream?trackid=${trackId}`,
-          {
-            responseType: "blob",
-          }
+          `http://localhost:3000/stream?trackid=${trackId}`,
+          { responseType: "blob" }
         );
         const url = URL.createObjectURL(response.data);
         setAudioSrc(url);
@@ -30,6 +29,25 @@ function Player() {
 
     fetchTrack();
   }, [trackId]);
+
+  useEffect(() => {
+    const fetchImage = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:3000/stream/image?pid=${pid}`,
+          { responseType: "blob" }
+        );
+        const imageUrl = URL.createObjectURL(response.data);
+        setImageSrc(imageUrl);
+      } catch (error) {
+        console.error("Error fetching image:", error);
+      }
+    };
+
+    if (pid) {
+      fetchImage();
+    }
+  }, [pid]); // This effect runs when pid changes
 
   const togglePlayPause = () => {
     if (isPlaying) {
@@ -63,13 +81,11 @@ function Player() {
   };
 
   const nextTrack = () => {
-    // Implement the logic to get the next track id
-    setTrackId("nextTrackId"); // Replace with actual logic to get next track ID
+    // Implement logic to fetch the next track id and pid for image
   };
 
   const previousTrack = () => {
-    // Implement the logic to get the previous track id
-    setTrackId("previousTrackId"); // Replace with actual logic to get previous track ID
+    // Implement logic to fetch the previous track id and pid for image
   };
 
   const formatTime = (time) => {
@@ -81,7 +97,7 @@ function Player() {
   return (
     <div className="player-container">
       <img
-        src="./src/assets/slaythespire.jpg"
+        src={imageSrc || "./src/assets/default.jpg"} // Use dynamic imageSrc or fallback to default
         alt="Album Image"
         className="album-image"
       />

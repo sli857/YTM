@@ -11,11 +11,14 @@ const Home = () => {
   useEffect(() => {
     const fetchPlaylists = async () => {
       try {
-        //const response = await axios.get("http://localhost:3000/playlists/all");
-        //setPlaylists(response.data);
-        setPlaylists([
-          { name: "song1", description: "song1 description", id: 1 },
-        ]);
+        const response = await axios.get(
+          "http://localhost:3000/metadata/playlists"
+        );
+        const playlistsData = response.data.playlists.map((playlist) => ({
+          id: playlist.id,
+          name: playlist.name,
+        }));
+        setPlaylists(playlistsData);
       } catch (error) {
         setError(error.message);
       } finally {
@@ -51,9 +54,7 @@ const Home = () => {
         <h1>Playlists</h1>
         <ul>
           {playlists.map((playlist) => (
-            <li key={playlist.id}>
-              {playlist.name} - {playlist.description}
-            </li>
+            <li key={playlist.id}>{playlist.name}</li>
           ))}
         </ul>
       </div>

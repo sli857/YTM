@@ -69,7 +69,7 @@ function Loginform({ setAuth }) {
     axios
       .post(`${SERVERURL}/signup`, form)
       .then((res) => {
-        if (res.status === 200) {
+        if (res.status === 201) {
           setAuth(true);
           navigate("/explore");
         }

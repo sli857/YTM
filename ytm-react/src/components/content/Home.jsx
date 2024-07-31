@@ -17,6 +17,7 @@ const Home = () => {
         const playlistsData = response.data.playlists.map((playlist) => ({
           id: playlist.id,
           name: playlist.name,
+          result: null, // New property to store API result
         }));
         setPlaylists(playlistsData);
       } catch (error) {
@@ -28,6 +29,20 @@ const Home = () => {
 
     fetchPlaylists();
   }, []);
+
+  const handleButtonClick = async (pid) => {
+    try {
+      const response = await axios.get(
+        `http://localhost:3000/metadata/playlist?pid=${pid}`
+      );
+      const updatedPlaylists = playlists.map((playlist) =>
+        playlist.id === pid ? { ...playlist, result: response.data } : playlist
+      );
+      setPlaylists(updatedPlaylists);
+    } catch (error) {
+      setError(error.message);
+    }
+  };
 
   if (loading) {
     return <div>Loading...</div>;
@@ -54,7 +69,17 @@ const Home = () => {
         <h1>Playlists</h1>
         <ul>
           {playlists.map((playlist) => (
-            <li key={playlist.id}>{playlist.name}</li>
+            <li key={playlist.pid}>
+              <button onClick={() => handleButtonClick(playlist.pid)}>
+                {playlist.name}
+              </button>
+              {playlist.result && (
+                <div className="playlist-result">
+                  {/* Render the result here */}
+                  {JSON.stringify(playlist.result)}
+                </div>
+              )}
+            </li>
           ))}
         </ul>
       </div>

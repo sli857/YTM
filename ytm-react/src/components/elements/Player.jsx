@@ -34,7 +34,7 @@ function Player() {
     const fetchImage = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3000/stream/image?pid=${pid}`,
+          `http://localhost:3000/metadata/image?pid=${pid}`,
           { responseType: "blob" }
         );
         const imageUrl = URL.createObjectURL(response.data);

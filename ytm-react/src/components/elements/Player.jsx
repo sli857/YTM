@@ -2,15 +2,13 @@ import React, { useState, useRef, useEffect } from "react";
 import axios from "axios";
 import "../content/Content.css";
 
-function Player() {
-  const [trackId, setTrackId] = useState("2277cc1fd395db6b");
+const Player = ({ trackId, pid }) => {
   const [audioSrc, setAudioSrc] = useState(null);
   const [imageSrc, setImageSrc] = useState(null); // State for image source
   const [isPlaying, setIsPlaying] = useState(false);
   const [progress, setProgress] = useState(0);
   const [duration, setDuration] = useState(0);
   const [volume, setVolume] = useState(0.5);
-  const [pid, setPid] = useState("97d29279748fec3d"); // Initial pid for the image
   const audioRef = useRef(null);
 
   useEffect(() => {
@@ -26,7 +24,6 @@ function Player() {
         console.error("Error fetching track:", error);
       }
     };
-
     fetchTrack();
   }, [trackId]);
 
@@ -43,10 +40,7 @@ function Player() {
         console.error("Error fetching image:", error);
       }
     };
-
-    if (pid) {
-      fetchImage();
-    }
+    fetchImage();
   }, [pid]); // This effect runs when pid changes
 
   const togglePlayPause = () => {
@@ -146,6 +140,6 @@ function Player() {
       </div>
     </div>
   );
-}
+};
 
 export default Player;

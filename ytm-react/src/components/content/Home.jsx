@@ -1,12 +1,23 @@
+// Home.js
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./Content.css";
+import ResultDisplay from "../elements/ResultDisplay";
 import Player from "../elements/Player";
+import Playlist from "../elements/Playlist";
 
 const Home = () => {
   const [playlists, setPlaylists] = useState([]);
+  const [selectedResult, setSelectedResult] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [trackId, setTrackId] = useState("2277cc1fd395db6b");
+  const [pid, setPid] = useState("97d29279748fec3d");
+
+  const changeTrack = (newTrackId, newPid) => {
+    setTrackId(newTrackId);
+    setPid(newPid);
+  };
 
   useEffect(() => {
     const fetchPlaylists = async () => {
@@ -14,12 +25,7 @@ const Home = () => {
         const response = await axios.get(
           "http://localhost:3000/metadata/playlists"
         );
-        const playlistsData = response.data.playlists.map((playlist) => ({
-          id: playlist.id,
-          name: playlist.name,
-          result: null, // New property to store API result
-        }));
-        setPlaylists(playlistsData);
+        setPlaylists(response.data.playlists);
       } catch (error) {
         setError(error.message);
       } finally {
@@ -30,31 +36,24 @@ const Home = () => {
     fetchPlaylists();
   }, []);
 
-  const handleButtonClick = async (pid) => {
+  const handlePlaylistClick = async (pid) => {
     try {
       const response = await axios.get(
         `http://localhost:3000/metadata/playlist?pid=${pid}`
       );
-      const updatedPlaylists = playlists.map((playlist) =>
-        playlist.id === pid ? { ...playlist, result: response.data } : playlist
-      );
-      setPlaylists(updatedPlaylists);
+      setSelectedResult(response.data.playlist);
     } catch (error) {
       setError(error.message);
     }
   };
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <div>Error: {error}</div>;
-  }
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error}</div>;
 
   return (
     <div className="page">
       <div className="navigation-bar">
+        {" "}
         <div className="navi-button-container">
           <button className="nav-button">Explore</button>
           <button className="nav-button">Library</button>
@@ -65,26 +64,25 @@ const Home = () => {
           onClick={() => {}}
         />
       </div>
-      <div className="main-page">
-        <h1>Playlists</h1>
-        <ul>
-          {playlists.map((playlist) => (
-            <li key={playlist.pid}>
-              <button onClick={() => handleButtonClick(playlist.pid)}>
-                {playlist.name}
-              </button>
-              {playlist.result && (
-                <div className="playlist-result">
-                  {/* Render the result here */}
-                  {JSON.stringify(playlist.result)}
-                </div>
-              )}
-            </li>
-          ))}
-        </ul>
+      <div className="content-layout">
+        <div className="playlist-section">
+          <h1>Playlists</h1>
+          <ul>
+            {playlists.map((playlist) => (
+              <Playlist
+                key={playlist.id}
+                playlist={playlist}
+                onPlaylistClick={handlePlaylistClick}
+              />
+            ))}
+          </ul>
+        </div>
+        <div className="result-section">
+          <ResultDisplay onTrackChange={changeTrack} result={selectedResult} />
+        </div>
       </div>
       <div className="music-player-bar">
-        <Player />
+        <Player trackId={trackId} pid={pid} />
       </div>
     </div>
   );

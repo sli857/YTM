@@ -1,3 +1,8 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
 .navigation-bar {
   position: fixed;
   top: 0;
@@ -6,12 +11,11 @@
   height: 50px;
   background-color: #ffffff;
   display: flex;
-  justify-content: space-between; /* Adjusted to space-between */
+  justify-content: space-between;
   align-items: center;
-  padding: 0 10px; /* Add padding to ensure content is not flush against screen edges */
+  padding: 0 10px;
 }
 
-/* Add this for the buttons container */
 .nav-buttons-container {
   display: flex;
   justify-content: center;
@@ -54,8 +58,6 @@
   padding: 0 10px;
 }
 
-/* Add this for the music player bar */
-/* Add this CSS to your Player component's CSS file */
 .player-container {
   display: flex;
   align-items: center;
@@ -63,8 +65,8 @@
 }
 
 .album-image {
-  width: 50px; /* Adjust as needed */
-  height: 50px; /* Adjust as needed */
+  width: 50px;
+  height: 50px;
   margin-right: 10px;
 }
 
@@ -74,11 +76,28 @@
 }
 
 .controls button {
-  margin: 0 5px; /* Adjust spacing between buttons as needed */
+  margin: 0 5px;
 }
 
 .progress-bar {
   width: 100%;
-  max-width: 300px; /* Adjust as needed */
+  max-width: 300px;
   margin-left: 10px;
+}
+
+.content-layout {
+  display: flex;
+  height: calc(100vh - 100px);
+  width: 100%;
+}
+
+.playlist-section {
+  width: 25%;
+  overflow-y: auto;
+  align-content: flex-start;
+}
+
+.result-section {
+  width: 75%;
+  overflow-y: auto;
 }

@@ -4,12 +4,7 @@ import Loginform from "./components/authorization/Loginform.jsx";
 import YtmApp from "./components/structural/YtmApp.jsx";
 
 const App = () => {
-  const [isAuthorized, setIsAuthorized] = useState(
-    localStorage.getItem("isAuthorized") === "true"
-  );
-  useEffect(() => {
-    localStorage.setItem("isAuthorized", isAuthorized);
-  }, [isAuthorized]);
+  const [isAuthorized, setIsAuthorized] = useState(false);
 
   return (
     <BrowserRouter>
